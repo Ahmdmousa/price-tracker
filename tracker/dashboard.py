@@ -1,0 +1,134 @@
+"""Generate a static dashboard (docs/index.html) for GitHub Pages."""
+from __future__ import annotations
+
+import json
+
+from . import db as dbm
+from .stores import STORE_LABELS
+
+DOCS = dbm.ROOT / "docs"
+
+TEMPLATE = r"""<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Price Tracker</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+<style>
+:root{--bg:#f6f7f9;--card:#fff;--fg:#1b1f24;--muted:#667085;--line:#e4e7ec;--accent:#2563eb;--down:#16a34a;--up:#dc2626;--warn:#b45309}
+@media (prefers-color-scheme:dark){:root{--bg:#0f1115;--card:#171a21;--fg:#e6e8eb;--muted:#9aa3b2;--line:#2a2f3a;--accent:#60a5fa;--down:#4ade80;--up:#f87171;--warn:#fbbf24}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:14px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+header{max-width:1200px;margin:0 auto;padding:24px 16px 8px;display:flex;flex-wrap:wrap;gap:12px;align-items:baseline;justify-content:space-between}
+h1{font-size:22px;margin:0}
+.meta{color:var(--muted)}
+.toolbar{max-width:1200px;margin:0 auto;padding:8px 16px;display:flex;gap:8px;flex-wrap:wrap}
+.toolbar input,.toolbar select{background:var(--card);color:var(--fg);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font:inherit}
+.toolbar input{flex:1;min-width:180px}
+main{max-width:1200px;margin:0 auto;padding:8px 16px 40px;display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(340px,1fr))}
+@media (max-width:420px){main{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.top{display:flex;gap:12px}
+.top img{width:64px;height:64px;object-fit:contain;border-radius:8px;background:#fff;flex:none}
+.title{font-weight:600;color:var(--fg);text-decoration:none;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.title:hover{color:var(--accent)}
+.badge{display:inline-block;font-size:11px;padding:2px 8px;border-radius:999px;border:1px solid var(--line);color:var(--muted);margin-top:4px}
+.price{font-size:22px;font-weight:700}
+.row{display:flex;gap:14px;flex-wrap:wrap;color:var(--muted);font-size:12px}
+.row b{color:var(--fg);font-weight:600}
+.down{color:var(--down)}.up{color:var(--up)}.warn{color:var(--warn)}
+.chart{position:relative;height:150px}
+.empty{grid-column:1/-1;text-align:center;color:var(--muted);padding:60px 0}
+</style>
+</head>
+<body>
+<header><h1>Price Tracker</h1><span class="meta" id="updated"></span></header>
+<div class="toolbar">
+  <input id="q" placeholder="Filter products…" aria-label="Filter">
+  <select id="store" aria-label="Store"><option value="">All stores</option></select>
+  <select id="sort" aria-label="Sort">
+    <option value="added">Recently added</option>
+    <option value="drop">Biggest drop vs. highest</option>
+    <option value="price">Price</option>
+  </select>
+</div>
+<main id="grid"></main>
+<script>
+const DATA = __DATA__;
+const LABELS = __LABELS__;
+const fmt = (p, c) => p == null ? "n/a" : p.toLocaleString("en-US", {maximumFractionDigits: 2}) + " " + (c || "EGP");
+const ago = iso => { if (!iso) return "never"; const m = Math.round((Date.now() - new Date(iso)) / 60000);
+  return m < 60 ? m + " min ago" : m < 1440 ? Math.round(m/60) + " h ago" : Math.round(m/1440) + " d ago"; };
+const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+document.getElementById("updated").textContent = "Updated " + ago(DATA.generated_at);
+const storeSel = document.getElementById("store");
+[...new Set(DATA.products.map(p => p.store))].forEach(s => storeSel.add(new Option(LABELS[s] || s, s)));
+const charts = [];
+function esc(s){return String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function render() {
+  charts.splice(0).forEach(c => c.destroy());
+  const q = document.getElementById("q").value.toLowerCase(), st = storeSel.value, sort = document.getElementById("sort").value;
+  let items = DATA.products.filter(p => (!st || p.store === st) && (!q || (p.title || p.url).toLowerCase().includes(q)));
+  const dropOf = p => p.highest_price && p.last_price ? (p.highest_price - p.last_price) / p.highest_price : 0;
+  if (sort === "added") items.sort((a, b) => (b.added_at || "").localeCompare(a.added_at || ""));
+  if (sort === "drop") items.sort((a, b) => dropOf(b) - dropOf(a));
+  if (sort === "price") items.sort((a, b) => (a.last_price ?? 1e15) - (b.last_price ?? 1e15));
+  const grid = document.getElementById("grid");
+  if (!items.length) { grid.innerHTML = '<div class="empty">No products yet. Send a product link to your Telegram bot.</div>'; return; }
+  grid.innerHTML = items.map((p, i) => {
+    const prev = p.history.length > 1 ? p.history[p.history.length - 2].p : null;
+    const delta = prev && p.last_price != null ? (p.last_price - prev) / prev * 100 : null;
+    const dcls = delta == null ? "" : delta < 0 ? "down" : delta > 0 ? "up" : "";
+    const dtxt = delta == null || !delta ? "" : ` <span class="${dcls}">${delta > 0 ? "▲" : "▼"} ${Math.abs(delta).toFixed(1)}%</span>`;
+    const stock = p.last_in_stock === false ? '<span class="up">Out of stock</span>' : "";
+    const err = p.error_count ? `<span class="warn">⚠ ${esc(p.last_error)}</span>` : "";
+    const tgt = p.target_price ? `<span>Target <b>${fmt(p.target_price, p.currency)}</b></span>` : "";
+    return `<article class="card">
+      <div class="top">${p.image ? `<img src="${esc(p.image)}" alt="" loading="lazy" referrerpolicy="no-referrer">` : ""}
+        <div style="min-width:0"><a class="title" href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.title || p.url)}</a>
+        <span class="badge">${esc(LABELS[p.store] || p.store)}</span></div></div>
+      <div><span class="price">${fmt(p.last_price, p.currency)}</span>${dtxt}</div>
+      <div class="row"><span>Low <b>${fmt(p.lowest_price, p.currency)}</b></span><span>High <b>${fmt(p.highest_price, p.currency)}</b></span>${tgt}</div>
+      <div class="chart"><canvas id="c${i}"></canvas></div>
+      <div class="row"><span>Checked ${ago(p.last_checked)}</span>${stock}${err}</div>
+    </article>`;
+  }).join("");
+  items.forEach((p, i) => {
+    const pts = p.history.filter(h => h.p != null).map(h => ({x: h.t, y: h.p}));
+    if (p.last_price != null && p.last_checked) pts.push({x: p.last_checked, y: p.last_price});
+    if (pts.length < 2) return;
+    const ann = p.target_price ? [{label: "Target", data: [{x: pts[0].x, y: p.target_price}, {x: pts[pts.length-1].x, y: p.target_price}],
+      borderColor: css("--down"), borderDash: [4, 4], borderWidth: 1, pointRadius: 0}] : [];
+    charts.push(new Chart(document.getElementById("c" + i), {
+      type: "line",
+      data: {datasets: [{label: "Price", data: pts, stepped: true, borderColor: css("--accent"), borderWidth: 2,
+        pointRadius: 0, pointHitRadius: 8, fill: false}, ...ann]},
+      options: {maintainAspectRatio: false, animation: false, interaction: {mode: "nearest", intersect: false},
+        plugins: {legend: {display: false}, tooltip: {callbacks: {label: c => fmt(c.parsed.y, p.currency)}}},
+        scales: {x: {type: "time", time: {tooltipFormat: "PP p"}, ticks: {color: css("--muted"), maxTicksLimit: 5}, grid: {display: false}},
+                 y: {ticks: {color: css("--muted"), maxTicksLimit: 4}, grid: {color: css("--line")}}}}
+    }));
+  });
+}
+["q", "store", "sort"].forEach(id => document.getElementById(id).addEventListener("input", render));
+render();
+</script>
+</body>
+</html>
+"""
+
+
+def build(db: dict) -> str:
+    products = []
+    for key, p in dbm.ordered(db):
+        products.append({"key": key, **p})
+    data = {"generated_at": dbm.now_iso(), "products": products}
+    as_js = lambda o: json.dumps(o, ensure_ascii=False).replace("</", "<\\/")
+    out = TEMPLATE.replace("__DATA__", as_js(data)).replace("__LABELS__", as_js(STORE_LABELS))
+    DOCS.mkdir(parents=True, exist_ok=True)
+    (DOCS / ".nojekyll").write_text("", encoding="utf-8")
+    path = DOCS / "index.html"
+    path.write_text(out, encoding="utf-8")
+    return str(path)
