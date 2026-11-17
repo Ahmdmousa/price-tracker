@@ -22,7 +22,8 @@
      "p": 74990.0,
      "s": true
     }
-   ]
+   ],
+   "sid": "51967cff"
   },
   "noon-N70105540V": {
    "url": "https://www.noon.com/egypt-en/iphone-16-plus-256gb-ultramarine-5g-middle-east-version/N70105540V/p/",
@@ -39,7 +40,8 @@
    "highest_price": null,
    "last_error": "timed out (the store may block automated requests)",
    "error_count": 1,
-   "history": []
+   "history": [],
+   "sid": "ad2cd784"
   },
   "btech-c8b8a605a1": {
    "url": "https://btech.com/en/p/apple-iphone-16-128gb-5g-black",
@@ -62,7 +64,8 @@
      "p": 64450.0,
      "s": true
     }
-   ]
+   ],
+   "sid": "d03abb0e"
   },
   "btech-dd54424ad0": {
    "url": "https://btech.com/en/p/hp-smart-tank-581-all-in-one-inkjet-printer-4a8d4a",
@@ -85,7 +88,10 @@
      "p": 6499.0,
      "s": true
     }
-   ]
+   ],
+   "sid": "f9be2dab"
   }
- }
+ },
+ "watches": {},
+ "candidates": {}
 }
