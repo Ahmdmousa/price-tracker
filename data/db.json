@@ -1,5 +1,5 @@
 {
- "telegram_offset": 901095981,
+ "telegram_offset": 901095985,
  "products": {
   "amazon-B0DGHXBKRW": {
    "url": "https://www.amazon.eg/dp/B0DGHXBKRW?language=en_AE",
@@ -60,6 +60,29 @@
     {
      "t": "2026-11-17T03:09:27+00:00",
      "p": 64450.0,
+     "s": true
+    }
+   ]
+  },
+  "btech-dd54424ad0": {
+   "url": "https://btech.com/en/p/hp-smart-tank-581-all-in-one-inkjet-printer-4a8d4a",
+   "store": "btech",
+   "title": "Hp Smart Tank 581 All in One Printer , Black - 4A8D4A",
+   "image": "https://media.btech.com/catalogs/d/2/0/e/d20e8db578ad731768eda803f5ad7d50fe3de54a_edd4d8385d6536181e89ebd85c73ab55d304a0b3ef3198fb8524bf2563791e98.jpeg",
+   "currency": "EGP",
+   "target_price": null,
+   "added_at": "2026-11-17T03:22:39+00:00",
+   "last_checked": "2026-11-17T03:22:39+00:00",
+   "last_price": 6499.0,
+   "last_in_stock": true,
+   "lowest_price": 6499.0,
+   "highest_price": 6499.0,
+   "last_error": null,
+   "error_count": 0,
+   "history": [
+    {
+     "t": "2026-11-17T03:22:39+00:00",
+     "p": 6499.0,
      "s": true
     }
    ]
