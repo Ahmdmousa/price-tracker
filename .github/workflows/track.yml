@@ -3,6 +3,8 @@ name: Track prices
 on:
   schedule:
     - cron: "17 * * * *"   # hourly: handles Telegram commands; products re-checked every CHECK_INTERVAL_HOURS
+  repository_dispatch:
+    types: [telegram]      # started instantly by the Cloudflare Worker when you message the bot
   workflow_dispatch:
     inputs:
       force:
@@ -49,7 +51,7 @@ jobs:
         run: |
           git config user.name "price-tracker-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data docs
+          git add -A data docs
           if git diff --cached --quiet; then echo "No changes"; exit 0; fi
           git commit -m "Update prices"
           git pull --rebase --autostash

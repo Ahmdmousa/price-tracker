@@ -43,6 +43,11 @@ def tg_updates(offset: int) -> list[dict]:
         return []
     try:
         return _tg("getUpdates", offset=offset, timeout=0, allowed_updates=["message"]) or []
+    except requests.HTTPError as e:
+        if e.response is not None and e.response.status_code == 409:
+            return []  # a webhook is active; messages arrive via data/inbox instead
+        print(f"[telegram] getUpdates failed: {e}")
+        return []
     except requests.RequestException as e:
         print(f"[telegram] getUpdates failed: {e}")
         return []

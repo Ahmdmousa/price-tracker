@@ -1,0 +1,6 @@
+name = "price-tracker-bot"
+main = "src/index.js"
+compatibility_date = "2025-06-01"
+
+[vars]
+GITHUB_REPO = "Ahmdmousa/price-tracker"

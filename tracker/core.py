@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import html
+import json
 import os
 import random
 import re
@@ -156,7 +157,7 @@ HELP = (
     "/target &lt;n&gt; &lt;price&gt; — set target price\n"
     "/remove &lt;n&gt; — stop tracking\n"
     "/help — this message\n\n"
-    "Commands are processed on the next scheduled run (up to ~1 hour)."
+    "Prices are re-checked every 3 hours. You get alerts on drops, targets and restocks."
 )
 
 
@@ -224,8 +225,34 @@ def handle_message(db: dict, text: str) -> str:
     return HELP
 
 
+INBOX = dbm.ROOT / "data" / "inbox"
+
+
+def _inbox_order(path) -> int:
+    return int(path.stem) if path.stem.isdigit() else 0
+
+
 def process_telegram(db: dict) -> None:
     allowed = notify.tg_allowed_chat()
+
+    # Webhook mode: the Cloudflare Worker queues each message as data/inbox/<update_id>.json.
+    # Files are deleted in the working tree and the deletion is committed at the end of the run,
+    # so if a run crashes the messages stay queued for the next one.
+    for f in sorted(INBOX.glob("*.json"), key=_inbox_order):
+        try:
+            m = json.loads(f.read_text(encoding="utf-8"))
+        except ValueError:
+            f.unlink()
+            continue
+        f.unlink()
+        uid = int(m.get("update_id") or 0)
+        if str(m.get("chat_id")) != allowed or uid < db["telegram_offset"]:
+            continue  # stranger or already handled
+        db["telegram_offset"] = uid + 1
+        notify.tg_send(handle_message(db, m.get("text", "")), str(m["chat_id"]))
+        dbm.save(db)
+
+    # Polling mode (no webhook set): read messages straight from Telegram.
     for upd in notify.tg_updates(db["telegram_offset"]):
         db["telegram_offset"] = upd["update_id"] + 1
         msg = upd.get("message") or {}
