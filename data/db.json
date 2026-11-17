@@ -1,4 +1,28 @@
 {
- "telegram_offset": 901095966,
- "products": {}
+ "telegram_offset": 901095969,
+ "products": {
+  "amazon-B0DGHXBKRW": {
+   "url": "https://www.amazon.eg/dp/B0DGHXBKRW?language=en_AE",
+   "store": "amazon",
+   "title": "Apple iPhone 16 Plus (256 GB) - Ultramarine with Face ID | Tax Paid | 2 Years Official Warranty",
+   "image": "https://m.media-amazon.com/images/I/71iADfVDjOL._AC_SL1500_.jpg",
+   "currency": "EGP",
+   "target_price": null,
+   "added_at": "2026-11-17T02:31:19+00:00",
+   "last_checked": "2026-11-17T02:31:19+00:00",
+   "last_price": 74990.0,
+   "last_in_stock": true,
+   "lowest_price": 74990.0,
+   "highest_price": 74990.0,
+   "last_error": null,
+   "error_count": 0,
+   "history": [
+    {
+     "t": "2026-11-17T02:31:19+00:00",
+     "p": 74990.0,
+     "s": true
+    }
+   ]
+  }
+ }
 }
