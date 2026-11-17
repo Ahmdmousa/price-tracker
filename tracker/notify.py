@@ -25,15 +25,18 @@ def _tg(method: str, **params):
     return r.json().get("result")
 
 
-def tg_send(text: str, chat_id: str | None = None) -> None:
+def tg_send(text: str, chat_id: str | None = None, buttons: list[list[dict]] | None = None) -> None:
+    """buttons: rows of {"text", "callback_data"} or {"text", "url"} (inline keyboard)."""
     if not _env("TELEGRAM_BOT_TOKEN"):
         return
     chat = chat_id or _env("TELEGRAM_CHAT_ID")
     if not chat:
         return
+    params = dict(chat_id=chat, text=text, parse_mode="HTML", disable_web_page_preview=True)
+    if buttons:
+        params["reply_markup"] = {"inline_keyboard": buttons}
     try:
-        _tg("sendMessage", chat_id=chat, text=text, parse_mode="HTML",
-            disable_web_page_preview=True)
+        _tg("sendMessage", **params)
     except requests.RequestException as e:
         print(f"[telegram] send failed: {e}")
 

@@ -4,3 +4,4 @@ compatibility_date = "2025-06-01"
 
 [vars]
 GITHUB_REPO = "Ahmdmousa/price-tracker"
+DASHBOARD_URL = "https://ahmdmousa.github.io/price-tracker/"

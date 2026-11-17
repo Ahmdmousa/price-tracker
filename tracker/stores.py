@@ -64,7 +64,7 @@ def detect_store(url: str) -> str | None:
 _ASIN = re.compile(r"/(?:dp|gp/product|gp/aw/d)/([A-Z0-9]{10})", re.I)
 _NOON = re.compile(r"/(N[0-9A-Z]{8,}[A-Z]?)/p", re.I)
 _JUMIA = re.compile(r"-(\d{6,})\.html")
-_BTECH = re.compile(r"/p/([0-9a-f-]{36})", re.I)
+_BTECH = re.compile(r"/p/([a-z0-9][a-z0-9-]+)", re.I)  # UUID or readable slug
 
 
 def product_key(url: str, store: str) -> str:
@@ -76,6 +76,15 @@ def product_key(url: str, store: str) -> str:
     else:
         ident = hashlib.sha1(url.encode()).hexdigest()[:10]
     return f"{store}-{ident}"
+
+
+def product_url(store: str, ident: str) -> str:
+    """Rebuild a product URL from its store id (used by search results and Telegram buttons)."""
+    if store == "amazon":
+        return f"https://www.amazon.eg/dp/{ident.upper()}?language=en_AE"
+    if store == "btech":
+        return f"https://btech.com/en/p/{ident.lower()}"
+    raise ValueError(f"no URL pattern for {store}")
 
 
 def canonical_url(url: str, store: str) -> str:

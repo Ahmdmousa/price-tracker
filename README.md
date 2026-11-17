@@ -46,13 +46,32 @@ A **dashboard** with price charts is published on GitHub Pages. Everything runs 
 
 Telegram:
 ```
-https://www.amazon.eg/dp/B0C9JP6J45          → start tracking
+https://www.amazon.eg/dp/B0C9JP6J45          → start tracking (also shows cheaper listings of the same model)
 https://btech.com/en/p/<id> 8500             → track with a target price
 /list                                        → numbered list with prices
 /target 2 8000                               → set target (0 clears it)
+/chart 2                                     → price-history chart image
+/alternatives 2                              → cheaper listings of the same model (Amazon.eg + B.TECH)
 /remove 2                                    → stop tracking
+
+/watch iphone 16 plus under 72000            → alert on any matching offer at or below 72,000
+/watch ps5 slim 20000-25000                  → price range
+/watch galaxy s25 -ultra                     → exclude words with a minus
+/watches, /unwatch 1                         → list / stop watches
 ```
-Replies arrive on the next hourly run. GitHub cron can lag a few minutes.
+Alerts and "Tracking ✅" replies come with buttons: 🎯 Target (−5/−10/−15 % presets or custom), 📈 Chart,
+💡 Cheaper?, 🗑 Remove. Watch and alternative results have ➕ Track buttons.
+
+**Instant replies.** A Cloudflare Worker (`worker/`) receives Telegram messages through a webhook:
+- `/help`, `/list`, `/watches`, `/chart` and the Chart and Target buttons are answered in about 1 s.
+- Anything that changes data gets a "⏳" reply right away, is queued in `data/inbox/`, and starts the workflow. The result arrives about 30–60 s later.
+
+Charts are drawn by quickchart.io from the product's price history.
+
+**Watches** search Amazon.eg and B.TECH every `WATCH_INTERVAL_HOURS` (default 6):
+- Every word you type must appear in the title.
+- Accessories (case, cover, glass…) and other models (pro, max, plus…) are filtered out unless your query includes those words.
+- You're alerted only about new matches or lower prices.
 
 Command line (local):
 ```

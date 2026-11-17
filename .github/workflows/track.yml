@@ -44,6 +44,7 @@ jobs:
           EMAIL_TO: ${{ secrets.EMAIL_TO }}
           CHECK_INTERVAL_HOURS: ${{ vars.CHECK_INTERVAL_HOURS || '3' }}
           MIN_DROP_PCT: ${{ vars.MIN_DROP_PCT || '1' }}
+          WATCH_INTERVAL_HOURS: ${{ vars.WATCH_INTERVAL_HOURS || '6' }}
         run: |
           if [ "${{ inputs.force }}" = "true" ]; then python -m tracker run --force; else python -m tracker run; fi
 
