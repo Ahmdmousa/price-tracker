@@ -1,5 +1,5 @@
 {
- "telegram_offset": 901095989,
+ "telegram_offset": 901095990,
  "products": {
   "amazon-B0DGHXBKRW": {
    "url": "https://www.amazon.eg/dp/B0DGHXBKRW?language=en_AE",
@@ -90,6 +90,24 @@
     }
    ],
    "sid": "f9be2dab"
+  },
+  "amazon-B0DZ7B83TY": {
+   "sid": "49e2b973",
+   "url": "https://www.amazon.eg/dp/B0DZ7B83TY?language=en_AE",
+   "store": "amazon",
+   "title": null,
+   "image": null,
+   "currency": "EGP",
+   "target_price": null,
+   "added_at": "2026-11-17T04:04:19+00:00",
+   "last_checked": "2026-11-17T04:04:19+00:00",
+   "last_price": null,
+   "last_in_stock": null,
+   "lowest_price": null,
+   "highest_price": null,
+   "last_error": "blocked by Amazon captcha",
+   "error_count": 1,
+   "history": []
   }
  },
  "watches": {},
