@@ -9,13 +9,13 @@
    "currency": "EGP",
    "target_price": 6400.0,
    "added_at": "2026-11-17T02:31:19+00:00",
-   "last_checked": "2026-11-17T19:50:52+00:00",
+   "last_checked": "2026-11-18T02:26:39+00:00",
    "last_price": 74990.0,
    "last_in_stock": true,
    "lowest_price": 74990.0,
    "highest_price": 74990.0,
-   "last_error": "blocked by Amazon captcha",
-   "error_count": 2,
+   "last_error": "HTTP 503",
+   "error_count": 3,
    "history": [
     {
      "t": "2026-11-17T02:31:19+00:00",
@@ -33,13 +33,13 @@
    "currency": "EGP",
    "target_price": null,
    "added_at": "2026-11-17T02:58:50+00:00",
-   "last_checked": "2026-11-17T19:50:57+00:00",
+   "last_checked": "2026-11-18T02:26:41+00:00",
    "last_price": null,
    "last_in_stock": null,
    "lowest_price": null,
    "highest_price": null,
    "last_error": "timed out (the store may block automated requests)",
-   "error_count": 3,
+   "error_count": 4,
    "history": [],
    "sid": "ad2cd784"
   },
@@ -51,10 +51,10 @@
    "currency": "EGP",
    "target_price": null,
    "added_at": "2026-11-17T03:09:27+00:00",
-   "last_checked": "2026-11-17T19:51:25+00:00",
-   "last_price": 64394.0,
+   "last_checked": "2026-11-18T02:27:10+00:00",
+   "last_price": 61999.0,
    "last_in_stock": true,
-   "lowest_price": 64394.0,
+   "lowest_price": 61999.0,
    "highest_price": 64450.0,
    "last_error": null,
    "error_count": 0,
@@ -68,6 +68,11 @@
      "t": "2026-11-17T19:51:25+00:00",
      "p": 64394.0,
      "s": true
+    },
+    {
+     "t": "2026-11-18T02:27:10+00:00",
+     "p": 61999.0,
+     "s": true
     }
    ],
    "sid": "d03abb0e"
@@ -80,7 +85,7 @@
    "currency": "EGP",
    "target_price": null,
    "added_at": "2026-11-17T03:22:39+00:00",
-   "last_checked": "2026-11-17T19:51:30+00:00",
+   "last_checked": "2026-11-18T02:27:14+00:00",
    "last_price": 6499.0,
    "last_in_stock": true,
    "lowest_price": 6499.0,
@@ -100,19 +105,25 @@
    "sid": "49e2b973",
    "url": "https://www.amazon.eg/dp/B0DZ7B83TY?language=en_AE",
    "store": "amazon",
-   "title": null,
-   "image": null,
+   "title": "Apple iPad with A16 chip: 11-inch Liquid Retina Display, 128 GB, Wi-Fi 6, 12MP Front / 12MP Back Camera, Touch ID, All-Day Battery Life — Blue",
+   "image": "https://m.media-amazon.com/images/I/61ThLpcJnCL._AC_SL1500_.jpg",
    "currency": "EGP",
    "target_price": null,
    "added_at": "2026-11-17T04:04:19+00:00",
-   "last_checked": "2026-11-17T19:51:34+00:00",
-   "last_price": null,
-   "last_in_stock": null,
-   "lowest_price": null,
-   "highest_price": null,
-   "last_error": "blocked by Amazon captcha",
-   "error_count": 3,
-   "history": []
+   "last_checked": "2026-11-18T02:27:17+00:00",
+   "last_price": 25549.43,
+   "last_in_stock": true,
+   "lowest_price": 25549.43,
+   "highest_price": 25549.43,
+   "last_error": null,
+   "error_count": 0,
+   "history": [
+    {
+     "t": "2026-11-18T02:27:17+00:00",
+     "p": 25549.43,
+     "s": true
+    }
+   ]
   }
  },
  "watches": {},
