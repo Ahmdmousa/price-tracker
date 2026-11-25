@@ -9,13 +9,13 @@
    "currency": "EGP",
    "target_price": 6400.0,
    "added_at": "2026-11-17T02:31:19+00:00",
-   "last_checked": "2026-11-24T17:44:20+00:00",
+   "last_checked": "2026-11-25T02:28:51+00:00",
    "last_price": 72777.0,
    "last_in_stock": true,
    "lowest_price": 72777.0,
    "highest_price": 74990.0,
    "last_error": "blocked by Amazon captcha",
-   "error_count": 1,
+   "error_count": 2,
    "history": [
     {
      "t": "2026-11-17T02:31:19+00:00",
@@ -48,13 +48,13 @@
    "currency": "EGP",
    "target_price": null,
    "added_at": "2026-11-17T02:58:50+00:00",
-   "last_checked": "2026-11-24T17:44:24+00:00",
+   "last_checked": "2026-11-25T02:28:55+00:00",
    "last_price": null,
    "last_in_stock": null,
    "lowest_price": null,
    "highest_price": null,
    "last_error": "timed out (the store may block automated requests)",
-   "error_count": 24,
+   "error_count": 25,
    "history": [],
    "sid": "ad2cd784"
   },
@@ -66,7 +66,7 @@
    "currency": "EGP",
    "target_price": null,
    "added_at": "2026-11-17T03:09:27+00:00",
-   "last_checked": "2026-11-24T17:44:52+00:00",
+   "last_checked": "2026-11-25T02:29:23+00:00",
    "last_price": 59999.0,
    "last_in_stock": true,
    "lowest_price": 59999.0,
@@ -113,6 +113,11 @@
      "t": "2026-11-23T21:25:21+00:00",
      "p": 59999.0,
      "s": true
+    },
+    {
+     "t": "2026-11-25T02:29:23+00:00",
+     "p": 59999.0,
+     "s": true
     }
    ],
    "sid": "d03abb0e"
@@ -125,7 +130,7 @@
    "currency": "EGP",
    "target_price": null,
    "added_at": "2026-11-17T03:22:39+00:00",
-   "last_checked": "2026-11-24T17:44:55+00:00",
+   "last_checked": "2026-11-25T02:29:28+00:00",
    "last_price": 6440.0,
    "last_in_stock": true,
    "lowest_price": 6440.0,
@@ -190,7 +195,7 @@
    "currency": "EGP",
    "target_price": null,
    "added_at": "2026-11-17T04:04:19+00:00",
-   "last_checked": "2026-11-24T17:44:59+00:00",
+   "last_checked": "2026-11-25T02:29:32+00:00",
    "last_price": 28500.0,
    "last_in_stock": true,
    "lowest_price": 25549.43,
