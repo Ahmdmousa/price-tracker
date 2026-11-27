@@ -9,13 +9,13 @@
    "currency": "EGP",
    "target_price": 6400.0,
    "added_at": "2026-11-17T02:31:19+00:00",
-   "last_checked": "2026-11-26T23:53:41+00:00",
+   "last_checked": "2026-11-27T08:33:02+00:00",
    "last_price": 72777.0,
    "last_in_stock": true,
    "lowest_price": 72777.0,
    "highest_price": 74990.0,
    "last_error": "blocked by Amazon captcha",
-   "error_count": 3,
+   "error_count": 4,
    "history": [
     {
      "t": "2026-11-17T02:31:19+00:00",
@@ -53,13 +53,13 @@
    "currency": "EGP",
    "target_price": null,
    "added_at": "2026-11-17T02:58:50+00:00",
-   "last_checked": "2026-11-26T23:53:46+00:00",
+   "last_checked": "2026-11-27T08:33:05+00:00",
    "last_price": null,
    "last_in_stock": null,
    "lowest_price": null,
    "highest_price": null,
    "last_error": "timed out (the store may block automated requests)",
-   "error_count": 30,
+   "error_count": 31,
    "history": [],
    "sid": "ad2cd784"
   },
@@ -71,10 +71,10 @@
    "currency": "EGP",
    "target_price": null,
    "added_at": "2026-11-17T03:09:27+00:00",
-   "last_checked": "2026-11-26T23:54:13+00:00",
-   "last_price": 59999.0,
+   "last_checked": "2026-11-27T08:33:34+00:00",
+   "last_price": 59959.0,
    "last_in_stock": true,
-   "lowest_price": 59999.0,
+   "lowest_price": 59959.0,
    "highest_price": 64450.0,
    "last_error": null,
    "error_count": 0,
@@ -128,6 +128,11 @@
      "t": "2026-11-26T05:04:44+00:00",
      "p": 59999.0,
      "s": true
+    },
+    {
+     "t": "2026-11-27T08:33:34+00:00",
+     "p": 59959.0,
+     "s": true
     }
    ],
    "sid": "d03abb0e"
@@ -140,7 +145,7 @@
    "currency": "EGP",
    "target_price": null,
    "added_at": "2026-11-17T03:22:39+00:00",
-   "last_checked": "2026-11-26T23:54:16+00:00",
+   "last_checked": "2026-11-27T08:33:37+00:00",
    "last_price": 6499.0,
    "last_in_stock": true,
    "lowest_price": 6440.0,
@@ -215,13 +220,13 @@
    "currency": "EGP",
    "target_price": null,
    "added_at": "2026-11-17T04:04:19+00:00",
-   "last_checked": "2026-11-26T23:54:19+00:00",
+   "last_checked": "2026-11-27T08:33:41+00:00",
    "last_price": 28577.19,
    "last_in_stock": true,
    "lowest_price": 25549.43,
    "highest_price": 28577.19,
-   "last_error": "blocked by Amazon captcha",
-   "error_count": 1,
+   "last_error": "HTTP 503",
+   "error_count": 2,
    "history": [
     {
      "t": "2026-11-18T02:27:17+00:00",
